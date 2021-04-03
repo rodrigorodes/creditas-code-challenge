@@ -1,6 +1,7 @@
 package br.com.creditas.loan.entity;
 
 import java.math.BigDecimal;
+import java.util.stream.Stream;
 
 public class Modality {
 
@@ -56,6 +57,18 @@ public class Modality {
 
 	public boolean isLocationSP() {
 		return this.location.equalsIgnoreCase("SP");
+	}
+
+	public boolean hasGuarantee() {
+		return Stream.of(
+				new GuaranteeConditionOne(), 
+				new GuaranteeConditionTwo(), 
+				new GuaranteeConditionThree())
+		.anyMatch(hasGuarantee -> hasGuarantee.isAccept(this));
+	}
+
+	public boolean hasConsigned() {
+		return isSalaryBiggerThan(4999);
 	}
 
 }

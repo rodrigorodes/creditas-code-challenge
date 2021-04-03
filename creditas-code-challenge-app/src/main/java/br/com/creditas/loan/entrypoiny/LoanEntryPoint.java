@@ -15,7 +15,7 @@ import br.com.creditas.loan.usecase.response.LoanModalityResponse;
 
 @RestController
 @RequestMapping("api/v1/loan")
-public class LoanEntryPoint {
+class LoanEntryPoint {
 	
 	private LoanModalityUseCase loanModalityUseCase;
 	

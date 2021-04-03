@@ -4,20 +4,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
+import br.com.creditas.loan.dataprovider.LoanConsignedDataProviderTest;
+import br.com.creditas.loan.dataprovider.LoanGuaranteeDataProviderTest;
+import br.com.creditas.loan.dataprovider.LoanPersonalDataProviderTest;
+import br.com.creditas.loan.usecase.impl.LoanModalityUseCaseImpl;
 import br.com.creditas.loan.usecase.request.LoanModalityRequest;
 import br.com.creditas.loan.usecase.response.LoanModalityResponse;
 
-@SpringBootTest
 public class LoanModalityUseCaseImplTest {
 	
-	@Autowired
-	private LoanModalityUseCase loanModalityUseCase;
+	private LoanModalityUseCase loanModalityUseCase = new LoanModalityUseCaseImpl(
+			List.of(new LoanConsignedDataProviderTest(),
+					new LoanGuaranteeDataProviderTest(), 
+					new LoanPersonalDataProviderTest()));
 
 	@Test
 	@DisplayName("Emprestimo Pessoal, Salário menor que 3000")

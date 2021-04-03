@@ -26,12 +26,13 @@ public class LoanModalityUseCaseImpl implements LoanModalityUseCase {
 	public LoanModalityResponse execute(LoanModalityRequest request) {
 
 		Modality modality = request.toModel();
-
+		
 		List<LoanRateTypeResponse> loanRateTypes = loanTypes
 				.stream()
 				.map(loanType -> loanType.accept(modality))
 				.filter(Optional :: isPresent)
 				.map(Optional :: get)
+				.filter(LoanRateTypeResponse :: hasLoan)
 				.collect(Collectors.toList());
 		
 		return new LoanModalityResponse(modality.getName(), loanRateTypes);

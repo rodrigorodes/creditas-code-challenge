@@ -3,6 +3,8 @@ package br.com.creditas.loan.entity;
 import java.math.BigDecimal;
 import java.util.stream.Stream;
 
+import br.com.creditas.loan.entity.vo.GuaranteeType;
+
 public class Modality {
 
 	private String name;
@@ -60,11 +62,21 @@ public class Modality {
 	}
 
 	public boolean hasGuarantee() {
-		return Stream.of(
-				new GuaranteeConditionOne(), 
-				new GuaranteeConditionTwo(), 
-				new GuaranteeConditionThree())
-		.anyMatch(hasGuarantee -> hasGuarantee.isAccept(this));
+		return Stream.of(GuaranteeType.values())
+				.map(guarantee -> guarantee.getModalityFunction())
+				.anyMatch(guaranteeFunction -> guaranteeFunction.apply(this));
+	}
+	
+	public Boolean guaranteeRuleOne() {
+		return isSalaryLessThan(3001) && isAgeLessThat(30) && isLocationSP();
+	}
+	
+	public Boolean guaranteeRuleTwo() {
+		return isSalaryBiggerThan(4999) && isAgeLessThat(30);
+	}
+	
+	public Boolean guaranteeRuleThree() {
+		return isSalaryBiggerThan(3000) && isSalaryLessThan(5001) && isLocationSP();
 	}
 
 	public boolean hasConsigned() {
